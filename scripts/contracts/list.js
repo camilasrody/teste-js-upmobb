@@ -16,6 +16,16 @@ const state = {
 
 const el = (id) => document.getElementById(id);
 
+const setFieldError = (inputId, errId, message) => {
+  el(inputId).classList.add("input--error");
+  el(errId).textContent = message;
+};
+
+const clearFieldError = (inputId, errId) => {
+  el(inputId).classList.remove("input--error");
+  el(errId).textContent = "";
+};
+
 const makeEl = (tag, { className, textContent, dataset, title } = {}) => {
   const node = document.createElement(tag);
   if (className) node.className = className;
