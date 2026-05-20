@@ -15,10 +15,13 @@ const state = {
 
 const el = (id) => document.getElementById(id);
 
-const esc = (value) => {
-  const div = document.createElement("div");
-  div.appendChild(document.createTextNode(String(value ?? "")));
-  return div.innerHTML;
+const makeEl = (tag, { className, textContent, dataset, title } = {}) => {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (textContent !== undefined) node.textContent = textContent;
+  if (title) node.title = title;
+  if (dataset) Object.entries(dataset).forEach(([k, v]) => (node.dataset[k] = v));
+  return node;
 };
 
 const showToast = (message, type = "success") => {
