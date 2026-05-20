@@ -11,3 +11,13 @@ export const isCPF = (value) => {
   const d2 = mod(d.slice(0, 10).split("").reduce((s, n, i) => s + Number(n) * (11 - i), 0));
   return Number(d[9]) === d1 && Number(d[10]) === d2;
 };
+
+export const isCNPJ = (value) => {
+  const d = onlyDigits(value);
+  if (d.length !== 14 || /^(\d)\1+$/.test(d)) return false;
+  const mod = (sum) => { const r = sum % 11; return r < 2 ? 0 : 11 - r; };
+  const w1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const w2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
+  const calc = (weights) => weights.reduce((s, w, i) => s + Number(d[i]) * w, 0);
+  return Number(d[12]) === mod(calc(w1)) && Number(d[13]) === mod(calc(w2));
+};
