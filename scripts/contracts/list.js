@@ -52,3 +52,42 @@ const applyFilters = () => {
   state.filtered = result;
   state.page = 1;
 };
+
+const STATUS_LABELS = {
+  not_sent: "Não enviado",
+  awaiting_signature: "Aguardando assinatura",
+  signed: "Assinado",
+  cancelled: "Cancelado",
+};
+
+const STATUS_CLASS = {
+  not_sent: "badge--not-sent",
+  awaiting_signature: "badge--awaiting",
+  signed: "badge--signed",
+  cancelled: "badge--cancelled",
+};
+
+const buildAddress = (c) =>
+  `${esc(c.address)}, ${esc(c.number)} — ${esc(c.neighborhood)}, ${esc(c.city)}/${esc(c.state)}`;
+
+const renderRows = (rows) => {
+  const tbody = el("table-body");
+  tbody.innerHTML = rows
+    .map(
+      (c) => `
+      <tr class="table__row">
+        <td class="table__td">${esc(c.model)}</td>
+        <td class="table__td">${esc(c.contractorName)}</td>
+        <td class="table__td">${esc(c.document)}</td>
+        <td class="table__td">${buildAddress(c)}</td>
+        <td class="table__td">
+          <span class="badge ${STATUS_CLASS[c.status] ?? ""}">${esc(STATUS_LABELS[c.status] ?? c.status)}</span>
+        </td>
+        <td class="table__td table__td--actions">
+          <button class="btn btn--icon" data-action="details" data-id="${esc(c.id)}" title="Ver detalhes">&#128196;</button>
+          <button class="btn btn--icon" data-action="preview" data-id="${esc(c.id)}" title="Prévia">&#128065;</button>
+        </td>
+      </tr>`
+    )
+    .join("");
+};
