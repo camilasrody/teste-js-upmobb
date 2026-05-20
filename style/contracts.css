@@ -433,3 +433,38 @@ body {
   font-size: 14px;
   color: var(--color-text-primary);
 }
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.form-group__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.form-group__label--required::after {
+  content: " *";
+  color: var(--color-danger);
+}
+
+.form-group__error {
+  font-size: 11px;
+  color: var(--color-danger);
+  min-height: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
