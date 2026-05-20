@@ -333,3 +333,40 @@ const clearForm = () => {
     el(errId).textContent = "";
   });
 };
+
+const handleFormSubmit = async () => {
+  if (!validateForm()) return;
+
+  const submitBtn = el("btn-submit-form");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Salvando...";
+
+  const data = {
+    model:          el("f-model").value.trim(),
+    contractorName: el("f-name").value.trim(),
+    email:          el("f-email").value.trim(),
+    documentType:   el("f-doctype").value.trim(),
+    document:       el("f-doc").value.trim(),
+    zipCode:        el("f-zip").value.trim(),
+    address:        el("f-address").value.trim(),
+    number:         el("f-number").value.trim(),
+    neighborhood:   el("f-neighborhood").value.trim(),
+    city:           el("f-city").value.trim(),
+    state:          el("f-state").value.trim().toUpperCase(),
+  };
+
+  try {
+    const created = await createContract(data);
+    state.contracts.unshift(created);
+    applyFilters();
+    render();
+    closeModal("modal-form");
+    clearForm();
+    showToast("Contrato criado com sucesso!");
+  } catch (err) {
+    showToast(err.message, "error");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Salvar";
+  }
+};
