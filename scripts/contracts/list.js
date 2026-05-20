@@ -446,12 +446,11 @@ const loadContracts = async () => {
   try {
     state.contracts = await fetchContracts();
     applyFilters();
-    render();
   } catch (err) {
     state.error = err.message;
-    render();
   } finally {
     state.loading = false;
+    render();
   }
 };
 
