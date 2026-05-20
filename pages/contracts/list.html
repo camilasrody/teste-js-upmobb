@@ -104,6 +104,98 @@
       </div>
     </div>
   </div>
+
+  <div class="modal-backdrop" id="modal-form" hidden>
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title">Novo contrato</h2>
+        <button class="modal__close" data-close="modal-form">&times;</button>
+      </div>
+      <div class="modal__body">
+        <form class="form-grid" id="contract-form" novalidate>
+          <div class="form-group">
+            <label class="form-group__label form-group__label--required" for="f-model">Modelo</label>
+            <select class="select" id="f-model" name="model">
+              <option value="">Selecione...</option>
+              <option value="Prestação de Serviços">Prestação de Serviços</option>
+              <option value="Locação de Imóvel">Locação de Imóvel</option>
+              <option value="Compra e Venda">Compra e Venda</option>
+              <option value="Consultoria">Consultoria</option>
+            </select>
+            <span class="form-group__error" id="err-model"></span>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-name">Nome do contratante</label>
+              <input class="input" type="text" id="f-name" name="contractorName" autocomplete="off">
+              <span class="form-group__error" id="err-name"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-email">E-mail</label>
+              <input class="input" type="email" id="f-email" name="email" autocomplete="off">
+              <span class="form-group__error" id="err-email"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-doctype">Tipo de documento</label>
+              <select class="select" id="f-doctype" name="documentType">
+                <option value="">Selecione...</option>
+                <option value="CPF">CPF</option>
+                <option value="CNPJ">CNPJ</option>
+              </select>
+              <span class="form-group__error" id="err-doctype"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-doc">Documento</label>
+              <input class="input" type="text" id="f-doc" name="document" autocomplete="off">
+              <span class="form-group__error" id="err-doc"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-zip">CEP</label>
+              <input class="input" type="text" id="f-zip" name="zipCode" maxlength="9" autocomplete="off">
+              <span class="form-group__error" id="err-zip"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-address">Endereço</label>
+              <input class="input" type="text" id="f-address" name="address" autocomplete="off">
+              <span class="form-group__error" id="err-address"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-number">Número</label>
+              <input class="input" type="text" id="f-number" name="number" autocomplete="off">
+              <span class="form-group__error" id="err-number"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-neighborhood">Bairro</label>
+              <input class="input" type="text" id="f-neighborhood" name="neighborhood" autocomplete="off">
+              <span class="form-group__error" id="err-neighborhood"></span>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-city">Cidade</label>
+              <input class="input" type="text" id="f-city" name="city" autocomplete="off">
+              <span class="form-group__error" id="err-city"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-group__label form-group__label--required" for="f-state">UF</label>
+              <input class="input" type="text" id="f-state" name="state" maxlength="2" autocomplete="off">
+              <span class="form-group__error" id="err-state"></span>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost" data-close="modal-form">Cancelar</button>
+        <button class="btn btn--primary" id="btn-submit-form">Salvar</button>
+      </div>
+    </div>
+  </div>
   <script type="module" src="../../scripts/contracts/list.js"></script>
 </body>
 </html>
