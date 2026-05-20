@@ -71,26 +71,49 @@ const STATUS_CLASS = {
 };
 
 const buildAddress = (c) =>
-  `${esc(c.address)}, ${esc(c.number)} — ${esc(c.neighborhood)}, ${esc(c.city)}/${esc(c.state)}`;
+  `${c.address}, ${c.number} — ${c.neighborhood}, ${c.city}/${c.state}`;
 
 const renderRows = (rows) => {
   const tbody = el("table-body");
-  tbody.innerHTML = rows
-    .map(
-      (c) => `
-      <tr class="table__row">
-        <td class="table__td">${esc(c.model)}</td>
-        <td class="table__td">${esc(c.contractorName)}</td>
-        <td class="table__td">${esc(c.document)}</td>
-        <td class="table__td">${buildAddress(c)}</td>
-        <td class="table__td">
-          <span class="badge ${STATUS_CLASS[c.status] ?? ""}">${esc(STATUS_LABELS[c.status] ?? c.status)}</span>
-        </td>
-        <td class="table__td table__td--actions">
-          <button class="btn btn--icon" data-action="details" data-id="${esc(c.id)}" title="Ver detalhes">&#128196;</button>
-          <button class="btn btn--icon" data-action="preview" data-id="${esc(c.id)}" title="Prévia">&#128065;</button>
-        </td>
-      </tr>`
-    )
-    .join("");
+  tbody.replaceChildren(
+    ...rows.map((c) => {
+      const tr = makeEl("tr", { className: "table__row" });
+
+      const tdStatus = makeEl("td", { className: "table__td" });
+      tdStatus.appendChild(
+        makeEl("span", {
+          className: `badge ${STATUS_CLASS[c.status] ?? ""}`,
+          textContent: STATUS_LABELS[c.status] ?? c.status,
+        })
+      );
+
+      const btnDetails = makeEl("button", {
+        className: "btn btn--icon",
+        textContent: "📄",
+        title: "Ver detalhes",
+        dataset: { action: "details", id: c.id },
+      });
+
+      const btnPreview = makeEl("button", {
+        className: "btn btn--icon",
+        textContent: "👁",
+        title: "Prévia",
+        dataset: { action: "preview", id: c.id },
+      });
+
+      const tdActions = makeEl("td", { className: "table__td table__td--actions" });
+      tdActions.append(btnDetails, btnPreview);
+
+      tr.append(
+        makeEl("td", { className: "table__td", textContent: c.model }),
+        makeEl("td", { className: "table__td", textContent: c.contractorName }),
+        makeEl("td", { className: "table__td", textContent: c.document }),
+        makeEl("td", { className: "table__td", textContent: buildAddress(c) }),
+        tdStatus,
+        tdActions
+      );
+
+      return tr;
+    })
+  );
 };
