@@ -305,44 +305,98 @@ const showPreview = (contract) => {
   openModal("modal-preview");
 };
 
-const REQUIRED_FIELDS = [
-  { id: "f-model",        errId: "err-model",        label: "Modelo" },
-  { id: "f-name",         errId: "err-name",         label: "Nome do contratante" },
-  { id: "f-email",        errId: "err-email",        label: "E-mail" },
-  { id: "f-doctype",      errId: "err-doctype",      label: "Tipo de documento" },
-  { id: "f-doc",          errId: "err-doc",          label: "Documento" },
-  { id: "f-zip",          errId: "err-zip",          label: "CEP" },
-  { id: "f-address",      errId: "err-address",      label: "Endereço" },
-  { id: "f-number",       errId: "err-number",       label: "Número" },
-  { id: "f-neighborhood", errId: "err-neighborhood", label: "Bairro" },
-  { id: "f-city",         errId: "err-city",         label: "Cidade" },
-  { id: "f-state",        errId: "err-state",        label: "UF" },
-];
-
 const validateForm = () => {
   let valid = true;
-  REQUIRED_FIELDS.forEach(({ id, errId, label }) => {
-    const input = el(id);
-    const err = el(errId);
-    if (!input.value.trim()) {
-      err.textContent = `${label} é obrigatório`;
-      input.classList.add("input--error");
+
+  const require = (inputId, errId, label) => {
+    if (!el(inputId).value.trim()) {
+      setFieldError(inputId, errId, `${label} é obrigatório`);
       valid = false;
-    } else {
-      err.textContent = "";
-      input.classList.remove("input--error");
+      return false;
     }
-  });
+    clearFieldError(inputId, errId);
+    return true;
+  };
+
+  require("f-model", "err-model", "Modelo");
+  require("f-name", "err-name", "Nome do contratante");
+  require("f-neighborhood", "err-neighborhood", "Bairro");
+  require("f-address", "err-address", "Endereço");
+  require("f-number", "err-number", "Número");
+  require("f-city", "err-city", "Cidade");
+
+  const email = el("f-email").value.trim();
+  if (!email) {
+    setFieldError("f-email", "err-email", "E-mail é obrigatório");
+    valid = false;
+  } else if (!isEmail(email)) {
+    setFieldError("f-email", "err-email", "E-mail inválido");
+    valid = false;
+  } else {
+    clearFieldError("f-email", "err-email");
+  }
+
+  const docType = el("f-doctype").value;
+  if (!docType) {
+    setFieldError("f-doctype", "err-doctype", "Tipo de documento é obrigatório");
+    valid = false;
+  } else {
+    clearFieldError("f-doctype", "err-doctype");
+  }
+
+  const doc = el("f-doc").value.trim();
+  if (!doc) {
+    setFieldError("f-doc", "err-doc", "Documento é obrigatório");
+    valid = false;
+  } else if (docType === "CPF" && !isCPF(doc)) {
+    setFieldError("f-doc", "err-doc", "CPF inválido");
+    valid = false;
+  } else if (docType === "CNPJ" && !isCNPJ(doc)) {
+    setFieldError("f-doc", "err-doc", "CNPJ inválido");
+    valid = false;
+  } else {
+    clearFieldError("f-doc", "err-doc");
+  }
+
+  const cep = el("f-zip").value.trim();
+  if (!cep) {
+    setFieldError("f-zip", "err-zip", "CEP é obrigatório");
+    valid = false;
+  } else if (!isCEP(cep)) {
+    setFieldError("f-zip", "err-zip", "CEP inválido (ex: 01310-100)");
+    valid = false;
+  } else {
+    clearFieldError("f-zip", "err-zip");
+  }
+
+  const uf = el("f-state").value.trim();
+  if (!uf) {
+    setFieldError("f-state", "err-state", "UF é obrigatória");
+    valid = false;
+  } else if (!isUF(uf)) {
+    setFieldError("f-state", "err-state", "UF inválida (ex: SP)");
+    valid = false;
+  } else {
+    clearFieldError("f-state", "err-state");
+  }
+
   return valid;
 };
 
 const clearForm = () => {
-  REQUIRED_FIELDS.forEach(({ id, errId }) => {
-    const input = el(id);
-    input.value = "";
-    input.classList.remove("input--error");
-    el(errId).textContent = "";
-  });
+  [
+    ["f-model", "err-model"],
+    ["f-name", "err-name"],
+    ["f-email", "err-email"],
+    ["f-doctype", "err-doctype"],
+    ["f-doc", "err-doc"],
+    ["f-zip", "err-zip"],
+    ["f-address", "err-address"],
+    ["f-number", "err-number"],
+    ["f-neighborhood", "err-neighborhood"],
+    ["f-city", "err-city"],
+    ["f-state", "err-state"],
+  ].forEach(([inputId, errId]) => clearFieldError(inputId, errId));
 };
 
 const handleFormSubmit = async () => {
