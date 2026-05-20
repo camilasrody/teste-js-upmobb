@@ -60,6 +60,19 @@
       <span class="pagination__info" id="pagination-info"></span>
       <div class="pagination__controls" id="pagination-controls"></div>
     </div>
+    <div class="state" id="state-loading" hidden>
+      <div class="spinner"></div>
+      <span class="state__title">Carregando...</span>
+    </div>
+    <div class="state" id="state-empty" hidden>
+      <span class="state__title">Nenhum contrato encontrado</span>
+      <span class="state__desc">Tente ajustar os filtros ou crie um novo contrato.</span>
+    </div>
+    <div class="state" id="state-error" hidden>
+      <span class="state__title">Erro ao carregar contratos</span>
+      <span class="state__desc" id="error-message"></span>
+      <button class="btn btn--ghost" id="btn-retry">Tentar novamente</button>
+    </div>
   </main>
   <script type="module" src="../../scripts/contracts/list.js"></script>
 </body>
