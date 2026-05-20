@@ -506,6 +506,34 @@ const bindModals = () => {
     const formatted = formatCEP(e.target.value);
     e.target.value = formatted;
   });
+
+  const applyDocMask = () => {
+    const docType = el("f-doctype").value;
+    const input = el("f-doc");
+    if (docType === "CPF") {
+      input.placeholder = "000.000.000-00";
+      input.maxLength = 14;
+      input.value = formatCPF(input.value);
+    } else if (docType === "CNPJ") {
+      input.placeholder = "00.000.000/0000-00";
+      input.maxLength = 18;
+      input.value = formatCNPJ(input.value);
+    } else {
+      input.placeholder = "";
+      input.maxLength = 20;
+    }
+  };
+
+  el("f-doctype").addEventListener("change", () => {
+    el("f-doc").value = "";
+    applyDocMask();
+  });
+
+  el("f-doc").addEventListener("input", (e) => {
+    const docType = el("f-doctype").value;
+    if (docType === "CPF") e.target.value = formatCPF(e.target.value);
+    else if (docType === "CNPJ") e.target.value = formatCNPJ(e.target.value);
+  });
 };
 
 const loadContracts = async () => {
