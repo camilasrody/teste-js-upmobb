@@ -148,3 +148,80 @@ body {
   background: var(--color-bg);
   color: var(--color-text-primary);
 }
+
+.table-wrapper {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow-x: auto;
+  box-shadow: var(--shadow);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table__head {
+  background: #fafafa;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.table__th {
+  padding: 10px 14px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.table__th--sortable {
+  cursor: pointer;
+}
+
+.table__th--sortable:hover {
+  color: var(--color-text-primary);
+}
+
+.table__th-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.table__sort-icon {
+  font-size: 10px;
+  color: var(--color-text-muted);
+}
+
+.table__th--asc .table__sort-icon,
+.table__th--desc .table__sort-icon {
+  color: var(--color-accent);
+}
+
+.table__row {
+  border-bottom: 1px solid var(--color-border);
+  transition: background 0.1s;
+}
+
+.table__row:last-child {
+  border-bottom: none;
+}
+
+.table__row:hover {
+  background: #fafafa;
+}
+
+.table__td {
+  padding: 10px 14px;
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+.table__td--actions {
+  white-space: nowrap;
+}

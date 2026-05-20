@@ -35,6 +35,27 @@
         <option value="desc">Decrescente</option>
       </select>
     </div>
+    <div class="table-wrapper">
+      <table class="table">
+        <thead class="table__head">
+          <tr>
+            <th class="table__th table__th--sortable" data-col="model">
+              <span class="table__th-inner">Modelo <span class="table__sort-icon">↕</span></span>
+            </th>
+            <th class="table__th table__th--sortable" data-col="contractorName">
+              <span class="table__th-inner">Contratante <span class="table__sort-icon">↕</span></span>
+            </th>
+            <th class="table__th">Documento</th>
+            <th class="table__th">Endereço</th>
+            <th class="table__th table__th--sortable" data-col="status">
+              <span class="table__th-inner">Status <span class="table__sort-icon">↕</span></span>
+            </th>
+            <th class="table__th">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
   </main>
   <script type="module" src="../../scripts/contracts/list.js"></script>
 </body>
