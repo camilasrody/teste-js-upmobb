@@ -74,6 +74,21 @@
       <button class="btn btn--ghost" id="btn-retry">Tentar novamente</button>
     </div>
   </main>
+
+  <div class="modal-backdrop" id="modal-details" hidden>
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title">Detalhes do contrato</h2>
+        <button class="modal__close" data-close="modal-details">&times;</button>
+      </div>
+      <div class="modal__body">
+        <div class="detail-grid" id="detail-content"></div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--ghost" data-close="modal-details">Fechar</button>
+      </div>
+    </div>
+  </div>
   <script type="module" src="../../scripts/contracts/list.js"></script>
 </body>
 </html>
