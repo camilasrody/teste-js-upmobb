@@ -370,3 +370,29 @@ const handleFormSubmit = async () => {
     submitBtn.textContent = "Salvar";
   }
 };
+
+const bindToolbar = () => {
+  el("search").addEventListener("input", (e) => {
+    state.search = e.target.value;
+    applyFilters();
+    render();
+  });
+
+  el("filter-status").addEventListener("change", (e) => {
+    state.statusFilter = e.target.value;
+    applyFilters();
+    render();
+  });
+
+  el("sort-field").addEventListener("change", (e) => {
+    state.sortField = e.target.value;
+    applyFilters();
+    render();
+  });
+
+  el("sort-dir").addEventListener("change", (e) => {
+    state.sortDir = e.target.value;
+    applyFilters();
+    render();
+  });
+};
