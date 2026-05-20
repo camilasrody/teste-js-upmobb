@@ -12,6 +12,29 @@
       <h1 class="page__title">Contratos</h1>
       <button class="btn btn--primary" id="btn-new-contract">Novo contrato</button>
     </header>
+    <div class="toolbar">
+      <div class="toolbar__search">
+        <input class="input" type="search" id="search" placeholder="Buscar por contratante, documento ou modelo…" autocomplete="off">
+      </div>
+      <select class="select" id="filter-status">
+        <option value="">Todos os status</option>
+        <option value="not_sent">Não enviado</option>
+        <option value="awaiting_signature">Aguardando assinatura</option>
+        <option value="signed">Assinado</option>
+        <option value="cancelled">Cancelado</option>
+      </select>
+      <select class="select" id="sort-field">
+        <option value="">Ordenar por…</option>
+        <option value="contractorName">Contratante</option>
+        <option value="model">Modelo</option>
+        <option value="createdAt">Data</option>
+        <option value="status">Status</option>
+      </select>
+      <select class="select" id="sort-dir">
+        <option value="asc">Crescente</option>
+        <option value="desc">Decrescente</option>
+      </select>
+    </div>
   </main>
   <script type="module" src="../../scripts/contracts/list.js"></script>
 </body>
