@@ -1,4 +1,5 @@
 import { fetchContracts, fetchContractById, createContract } from "./contracts.requests.js";
+import { isEmail, isCPF, isCNPJ, isCEP, isUF, formatCPF, formatCNPJ, formatCEP } from "../utils.js";
 
 const state = {
   contracts: [],
