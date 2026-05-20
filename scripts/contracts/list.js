@@ -231,3 +231,105 @@ const showDetails = (contract) => {
   );
   openModal("modal-details");
 };
+
+const parsePreview = (text) => {
+  const fragment = document.createDocumentFragment();
+  const lines = text.split("\n");
+  let ul = null;
+
+  lines.forEach((line) => {
+    if (line.startsWith("- ")) {
+      if (!ul) {
+        ul = document.createElement("ul");
+        fragment.appendChild(ul);
+      }
+      const li = document.createElement("li");
+      li.textContent = line.slice(2);
+      ul.appendChild(li);
+    } else {
+      ul = null;
+      const p = document.createElement("p");
+      const parts = line.split(/(\*\*[^*]+\*\*)/g);
+      parts.forEach((part) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          const strong = document.createElement("strong");
+          strong.textContent = part.slice(2, -2);
+          p.appendChild(strong);
+        } else {
+          p.appendChild(document.createTextNode(part));
+        }
+      });
+      fragment.appendChild(p);
+    }
+  });
+
+  return fragment;
+};
+
+const CONTRACT_TEMPLATE = `**CONTRATO DE PRESTAÇÃO DE SERVIÇOS**
+
+Pelo presente instrumento, as partes abaixo identificadas:
+
+**Contratante:** {{contractorName}}
+**Documento:** {{documentType}} {{document}}
+**E-mail:** {{email}}
+**Endereço:** {{address}}, {{number}}, {{neighborhood}}, {{city}} - {{state}}, CEP {{zipCode}}
+
+**Objeto do contrato:**
+- Prestação de serviços conforme modelo: {{model}}
+- Vigência a partir da data de assinatura
+
+**Condições gerais:**
+- O contratante declara estar ciente de todas as cláusulas
+- Qualquer alteração deve ser formalizada por escrito
+- Foro eleito: comarca da cidade do contratante`;
+
+const showPreview = (contract) => {
+  const filled = CONTRACT_TEMPLATE.replace(
+    /\{\{(\w+)\}\}/g,
+    (_, key) => contract[key] ?? ""
+  );
+  const container = el("preview-content");
+  container.replaceChildren(parsePreview(filled));
+  openModal("modal-preview");
+};
+
+const REQUIRED_FIELDS = [
+  { id: "f-model",        errId: "err-model",        label: "Modelo" },
+  { id: "f-name",         errId: "err-name",         label: "Nome do contratante" },
+  { id: "f-email",        errId: "err-email",        label: "E-mail" },
+  { id: "f-doctype",      errId: "err-doctype",      label: "Tipo de documento" },
+  { id: "f-doc",          errId: "err-doc",          label: "Documento" },
+  { id: "f-zip",          errId: "err-zip",          label: "CEP" },
+  { id: "f-address",      errId: "err-address",      label: "Endereço" },
+  { id: "f-number",       errId: "err-number",       label: "Número" },
+  { id: "f-neighborhood", errId: "err-neighborhood", label: "Bairro" },
+  { id: "f-city",         errId: "err-city",         label: "Cidade" },
+  { id: "f-state",        errId: "err-state",        label: "UF" },
+];
+
+const validateForm = () => {
+  let valid = true;
+  REQUIRED_FIELDS.forEach(({ id, errId, label }) => {
+    const input = el(id);
+    const err = el(errId);
+    if (!input.value.trim()) {
+      err.textContent = `${label} é obrigatório`;
+      input.classList.add("input--error");
+      valid = false;
+    } else {
+      err.textContent = "";
+      input.classList.remove("input--error");
+    }
+  });
+  return valid;
+};
+
+const clearForm = () => {
+  REQUIRED_FIELDS.forEach(({ id, errId }) => {
+    const input = el(id);
+    input.value = "";
+    input.classList.remove("input--error");
+    el(errId).textContent = "";
+  });
+};
