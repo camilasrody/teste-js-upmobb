@@ -416,3 +416,24 @@ const bindTableActions = () => {
     }
   });
 };
+
+const bindModals = () => {
+  document.addEventListener("click", (e) => {
+    const closeTarget = e.target.closest("[data-close]");
+    if (closeTarget) {
+      closeModal(closeTarget.dataset.close);
+      return;
+    }
+
+    if (e.target.classList.contains("modal-backdrop")) {
+      closeModal(e.target.id);
+    }
+  });
+
+  el("btn-new-contract").addEventListener("click", () => {
+    clearForm();
+    openModal("modal-form");
+  });
+
+  el("btn-submit-form").addEventListener("click", handleFormSubmit);
+};
