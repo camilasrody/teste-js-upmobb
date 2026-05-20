@@ -71,3 +71,80 @@ Pelo presente instrumento, as partes abaixo identificadas:
 - O contratante declara estar ciente de todas as cláusulas
 - Qualquer alteração deve ser formalizada por escrito
 - Foro eleito: comarca da cidade do contratante`;
+export const validateContract = (getVal, onError, onClear) => {
+  let valid = true;
+
+  const require = (field, errField, label) => {
+    if (!getVal(field).trim()) {
+      onError(field, errField, `${label} é obrigatório`);
+      valid = false;
+      return false;
+    }
+    onClear(field, errField);
+    return true;
+  };
+
+  require("f-model", "err-model", "Modelo");
+  require("f-name", "err-name", "Nome do contratante");
+  require("f-neighborhood", "err-neighborhood", "Bairro");
+  require("f-address", "err-address", "Endereço");
+  require("f-number", "err-number", "Número");
+  require("f-city", "err-city", "Cidade");
+
+  const email = getVal("f-email").trim();
+  if (!email) {
+    onError("f-email", "err-email", "E-mail é obrigatório");
+    valid = false;
+  } else if (!isEmail(email)) {
+    onError("f-email", "err-email", "E-mail inválido");
+    valid = false;
+  } else {
+    onClear("f-email", "err-email");
+  }
+
+  const docType = getVal("f-doctype");
+  if (!docType) {
+    onError("f-doctype", "err-doctype", "Tipo de documento é obrigatório");
+    valid = false;
+  } else {
+    onClear("f-doctype", "err-doctype");
+  }
+
+  const doc = getVal("f-doc").trim();
+  if (!doc) {
+    onError("f-doc", "err-doc", "Documento é obrigatório");
+    valid = false;
+  } else if (docType === "CPF" && !isCPF(doc)) {
+    onError("f-doc", "err-doc", "CPF inválido");
+    valid = false;
+  } else if (docType === "CNPJ" && !isCNPJ(doc)) {
+    onError("f-doc", "err-doc", "CNPJ inválido");
+    valid = false;
+  } else {
+    onClear("f-doc", "err-doc");
+  }
+
+  const cep = getVal("f-zip").trim();
+  if (!cep) {
+    onError("f-zip", "err-zip", "CEP é obrigatório");
+    valid = false;
+  } else if (!isCEP(cep)) {
+    onError("f-zip", "err-zip", "CEP inválido (ex: 01310-100)");
+    valid = false;
+  } else {
+    onClear("f-zip", "err-zip");
+  }
+
+  const uf = getVal("f-state").trim();
+  if (!uf) {
+    onError("f-state", "err-state", "UF é obrigatória");
+    valid = false;
+  } else if (!isUF(uf)) {
+    onError("f-state", "err-state", "UF inválida (ex: SP)");
+    valid = false;
+  } else {
+    onClear("f-state", "err-state");
+  }
+
+  return valid;
+};

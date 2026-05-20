@@ -1,5 +1,5 @@
 import { fetchContracts, fetchContractById, createContract } from "./contracts.requests.js";
-import { isEmail, isCPF, isCNPJ, isCEP, isUF, formatCPF, formatCNPJ, formatCEP, CONTRACT_TEMPLATE } from "../utils.js";
+import { formatCPF, formatCNPJ, formatCEP, CONTRACT_TEMPLATE, validateContract } from "../utils.js";
 
 const state = {
   contracts: [],
@@ -287,83 +287,12 @@ const showPreview = (contract) => {
   openModal("modal-preview");
 };
 
-const validateForm = () => {
-  let valid = true;
-
-  const require = (inputId, errId, label) => {
-    if (!el(inputId).value.trim()) {
-      setFieldError(inputId, errId, `${label} é obrigatório`);
-      valid = false;
-      return false;
-    }
-    clearFieldError(inputId, errId);
-    return true;
-  };
-
-  require("f-model", "err-model", "Modelo");
-  require("f-name", "err-name", "Nome do contratante");
-  require("f-neighborhood", "err-neighborhood", "Bairro");
-  require("f-address", "err-address", "Endereço");
-  require("f-number", "err-number", "Número");
-  require("f-city", "err-city", "Cidade");
-
-  const email = el("f-email").value.trim();
-  if (!email) {
-    setFieldError("f-email", "err-email", "E-mail é obrigatório");
-    valid = false;
-  } else if (!isEmail(email)) {
-    setFieldError("f-email", "err-email", "E-mail inválido");
-    valid = false;
-  } else {
-    clearFieldError("f-email", "err-email");
-  }
-
-  const docType = el("f-doctype").value;
-  if (!docType) {
-    setFieldError("f-doctype", "err-doctype", "Tipo de documento é obrigatório");
-    valid = false;
-  } else {
-    clearFieldError("f-doctype", "err-doctype");
-  }
-
-  const doc = el("f-doc").value.trim();
-  if (!doc) {
-    setFieldError("f-doc", "err-doc", "Documento é obrigatório");
-    valid = false;
-  } else if (docType === "CPF" && !isCPF(doc)) {
-    setFieldError("f-doc", "err-doc", "CPF inválido");
-    valid = false;
-  } else if (docType === "CNPJ" && !isCNPJ(doc)) {
-    setFieldError("f-doc", "err-doc", "CNPJ inválido");
-    valid = false;
-  } else {
-    clearFieldError("f-doc", "err-doc");
-  }
-
-  const cep = el("f-zip").value.trim();
-  if (!cep) {
-    setFieldError("f-zip", "err-zip", "CEP é obrigatório");
-    valid = false;
-  } else if (!isCEP(cep)) {
-    setFieldError("f-zip", "err-zip", "CEP inválido (ex: 01310-100)");
-    valid = false;
-  } else {
-    clearFieldError("f-zip", "err-zip");
-  }
-
-  const uf = el("f-state").value.trim();
-  if (!uf) {
-    setFieldError("f-state", "err-state", "UF é obrigatória");
-    valid = false;
-  } else if (!isUF(uf)) {
-    setFieldError("f-state", "err-state", "UF inválida (ex: SP)");
-    valid = false;
-  } else {
-    clearFieldError("f-state", "err-state");
-  }
-
-  return valid;
-};
+const validateForm = () =>
+  validateContract(
+    (id) => el(id).value,
+    setFieldError,
+    clearFieldError
+  );
 
 const clearForm = () => {
   [
