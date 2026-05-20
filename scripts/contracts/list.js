@@ -117,3 +117,43 @@ const renderRows = (rows) => {
     })
   );
 };
+
+const renderPagination = () => {
+  const total = state.filtered.length;
+  const totalPages = Math.ceil(total / state.perPage);
+  const paginationEl = el("pagination");
+
+  if (totalPages <= 1) {
+    paginationEl.hidden = true;
+    return;
+  }
+
+  const start = (state.page - 1) * state.perPage + 1;
+  const end = Math.min(state.page * state.perPage, total);
+
+  el("pagination-info").textContent = `${start}–${end} de ${total}`;
+
+  const controls = el("pagination-controls");
+  controls.replaceChildren();
+
+  const prevBtn = makeEl("button", { className: "pagination__btn", textContent: "‹" });
+  prevBtn.disabled = state.page === 1;
+  prevBtn.addEventListener("click", () => { state.page--; render(); });
+  controls.appendChild(prevBtn);
+
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = makeEl("button", {
+      className: `pagination__btn${i === state.page ? " pagination__btn--active" : ""}`,
+      textContent: String(i),
+    });
+    btn.addEventListener("click", () => { state.page = i; render(); });
+    controls.appendChild(btn);
+  }
+
+  const nextBtn = makeEl("button", { className: "pagination__btn", textContent: "›" });
+  nextBtn.disabled = state.page === totalPages;
+  nextBtn.addEventListener("click", () => { state.page++; render(); });
+  controls.appendChild(nextBtn);
+
+  paginationEl.hidden = false;
+};
