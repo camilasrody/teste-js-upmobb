@@ -157,3 +157,50 @@ const renderPagination = () => {
 
   paginationEl.hidden = false;
 };
+
+const setVisibility = (ids, visibleId) => {
+  ids.forEach((id) => { el(id).hidden = id !== visibleId; });
+};
+
+const render = () => {
+  const tableWrapper = document.querySelector(".table-wrapper");
+  const total = state.filtered.length;
+  const pageRows = state.filtered.slice(
+    (state.page - 1) * state.perPage,
+    state.page * state.perPage
+  );
+
+  if (state.loading) {
+    tableWrapper.hidden = true;
+    setVisibility(["state-loading", "state-empty", "state-error"], "state-loading");
+    el("pagination").hidden = true;
+    return;
+  }
+
+  if (state.error) {
+    tableWrapper.hidden = true;
+    setVisibility(["state-loading", "state-empty", "state-error"], "state-error");
+    el("error-message").textContent = state.error;
+    el("pagination").hidden = true;
+    return;
+  }
+
+  if (total === 0) {
+    tableWrapper.hidden = true;
+    setVisibility(["state-loading", "state-empty", "state-error"], "state-empty");
+    el("pagination").hidden = true;
+    return;
+  }
+
+  setVisibility(["state-loading", "state-empty", "state-error"], null);
+  tableWrapper.hidden = false;
+  renderRows(pageRows);
+  renderPagination();
+
+  document.querySelectorAll(".table__th--sortable").forEach((th) => {
+    th.classList.remove("table__th--asc", "table__th--desc");
+    if (th.dataset.col === state.sortField) {
+      th.classList.add(`table__th--${state.sortDir}`);
+    }
+  });
+};
