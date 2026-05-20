@@ -396,3 +396,23 @@ const bindToolbar = () => {
     render();
   });
 };
+
+const bindTableActions = () => {
+  el("table-body").addEventListener("click", async (e) => {
+    const btn = e.target.closest("[data-action]");
+    if (!btn) return;
+
+    const { action, id } = btn.dataset;
+    btn.disabled = true;
+
+    try {
+      const contract = await fetchContractById(id);
+      if (action === "details") showDetails(contract);
+      if (action === "preview") showPreview(contract);
+    } catch (err) {
+      showToast(err.message, "error");
+    } finally {
+      btn.disabled = false;
+    }
+  });
+};
