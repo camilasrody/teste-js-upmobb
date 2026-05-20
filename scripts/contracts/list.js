@@ -204,3 +204,30 @@ const render = () => {
     }
   });
 };
+
+const openModal = (id) => { el(id).hidden = false; };
+const closeModal = (id) => { el(id).hidden = true; };
+
+const detailItem = (label, value) => {
+  const item = makeEl("div", { className: "detail-grid__item" });
+  item.append(
+    makeEl("span", { className: "detail-grid__label", textContent: label }),
+    makeEl("span", { className: "detail-grid__value", textContent: value })
+  );
+  return item;
+};
+
+const showDetails = (contract) => {
+  const grid = el("detail-content");
+  const date = new Date(contract.createdAt).toLocaleDateString("pt-BR");
+  grid.replaceChildren(
+    detailItem("Modelo", contract.model),
+    detailItem("Contratante", contract.contractorName),
+    detailItem("Documento", `${contract.documentType}: ${contract.document}`),
+    detailItem("E-mail", contract.email),
+    detailItem("Endereço completo", buildAddress(contract)),
+    detailItem("Status", STATUS_LABELS[contract.status] ?? contract.status),
+    detailItem("Data de criação", date)
+  );
+  openModal("modal-details");
+};
