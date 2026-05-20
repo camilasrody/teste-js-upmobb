@@ -1,0 +1,7 @@
+{
+  "name": "teste-js-upmobb",
+  "version": "1.0.0",
+  "scripts": {
+    "serve": "npx serve . --listen 3000"
+  }
+}
