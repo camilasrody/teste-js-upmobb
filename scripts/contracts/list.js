@@ -14,3 +14,9 @@ const state = {
 };
 
 const el = (id) => document.getElementById(id);
+
+const esc = (value) => {
+  const div = document.createElement("div");
+  div.appendChild(document.createTextNode(String(value ?? "")));
+  return div.innerHTML;
+};
