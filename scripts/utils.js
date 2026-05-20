@@ -21,3 +21,13 @@ export const isCNPJ = (value) => {
   const calc = (weights) => weights.reduce((s, w, i) => s + Number(d[i]) * w, 0);
   return Number(d[12]) === mod(calc(w1)) && Number(d[13]) === mod(calc(w2));
 };
+
+export const isCEP = (value) => /^\d{5}-?\d{3}$/.test(String(value).trim());
+
+const UF_LIST = new Set([
+  "AC","AL","AP","AM","BA","CE","DF","ES","GO","MA",
+  "MT","MS","MG","PA","PB","PR","PE","PI","RJ","RN",
+  "RS","RO","RR","SC","SP","SE","TO",
+]);
+
+export const isUF = (value) => UF_LIST.has(String(value).trim().toUpperCase());
