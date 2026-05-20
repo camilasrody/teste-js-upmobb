@@ -53,3 +53,21 @@ export const formatCEP = (value) => {
   const d = onlyDigits(value).slice(0, 8);
   return d.replace(/(\d{5})(\d{1,3})$/, "$1-$2");
 };
+
+export const CONTRACT_TEMPLATE = `**CONTRATO DE PRESTAÇÃO DE SERVIÇOS**
+
+Pelo presente instrumento, as partes abaixo identificadas:
+
+**Contratante:** {{contractorName}}
+**Documento:** {{documentType}} {{document}}
+**E-mail:** {{email}}
+**Endereço:** {{address}}, {{number}}, {{neighborhood}}, {{city}} - {{state}}, CEP {{zipCode}}
+
+**Objeto do contrato:**
+- Prestação de serviços conforme modelo: {{model}}
+- Vigência a partir da data de assinatura
+
+**Condições gerais:**
+- O contratante declara estar ciente de todas as cláusulas
+- Qualquer alteração deve ser formalizada por escrito
+- Foro eleito: comarca da cidade do contratante`;

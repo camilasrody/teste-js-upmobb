@@ -1,5 +1,5 @@
 import { fetchContracts, fetchContractById, createContract } from "./contracts.requests.js";
-import { isEmail, isCPF, isCNPJ, isCEP, isUF, formatCPF, formatCNPJ, formatCEP } from "../utils.js";
+import { isEmail, isCPF, isCNPJ, isCEP, isUF, formatCPF, formatCNPJ, formatCEP, CONTRACT_TEMPLATE } from "../utils.js";
 
 const state = {
   contracts: [],
@@ -276,24 +276,6 @@ const parsePreview = (text) => {
 
   return fragment;
 };
-
-const CONTRACT_TEMPLATE = `**CONTRATO DE PRESTAÇÃO DE SERVIÇOS**
-
-Pelo presente instrumento, as partes abaixo identificadas:
-
-**Contratante:** {{contractorName}}
-**Documento:** {{documentType}} {{document}}
-**E-mail:** {{email}}
-**Endereço:** {{address}}, {{number}}, {{neighborhood}}, {{city}} - {{state}}, CEP {{zipCode}}
-
-**Objeto do contrato:**
-- Prestação de serviços conforme modelo: {{model}}
-- Vigência a partir da data de assinatura
-
-**Condições gerais:**
-- O contratante declara estar ciente de todas as cláusulas
-- Qualquer alteração deve ser formalizada por escrito
-- Foro eleito: comarca da cidade do contratante`;
 
 const showPreview = (contract) => {
   const filled = CONTRACT_TEMPLATE.replace(
