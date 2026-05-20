@@ -31,3 +31,25 @@ const UF_LIST = new Set([
 ]);
 
 export const isUF = (value) => UF_LIST.has(String(value).trim().toUpperCase());
+
+export const formatCPF = (value) => {
+  const d = onlyDigits(value).slice(0, 11);
+  return d
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+};
+
+export const formatCNPJ = (value) => {
+  const d = onlyDigits(value).slice(0, 14);
+  return d
+    .replace(/(\d{2})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1.$2")
+    .replace(/(\d{3})(\d)/, "$1/$2")
+    .replace(/(\d{4})(\d{1,2})$/, "$1-$2");
+};
+
+export const formatCEP = (value) => {
+  const d = onlyDigits(value).slice(0, 8);
+  return d.replace(/(\d{5})(\d{1,3})$/, "$1-$2");
+};
