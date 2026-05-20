@@ -1,6 +1,7 @@
 # Teste Frontend — Contratos
 
 Tela administrativa de contratos
+<img width="1250" height="805" alt="{3A9BB99A-0786-4988-8C32-25BF91C3353C}" src="https://github.com/user-attachments/assets/f82fc7ad-a5d2-48e1-802f-6c32a7afe668" />
 
 ## Estrutura
 
@@ -13,7 +14,7 @@ style/contracts.css           — Estilos
 
 ## Como usar
 
-Abra `pages/contracts/list.html` diretamente no navegador (servidor local recomendado para módulos ES).
+Abra `pages/contracts/list` diretamente no navegador
 
 ```bash
 npx serve .

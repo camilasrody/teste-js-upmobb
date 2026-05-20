@@ -1,2 +1,13 @@
 export const isEmail = (value) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(String(value).trim());
+
+export const onlyDigits = (value) => String(value).replace(/\D/g, "");
+
+export const isCPF = (value) => {
+  const d = onlyDigits(value);
+  if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+  const mod = (sum) => { const r = sum % 11; return r < 2 ? 0 : 11 - r; };
+  const d1 = mod(d.slice(0, 9).split("").reduce((s, n, i) => s + Number(n) * (10 - i), 0));
+  const d2 = mod(d.slice(0, 10).split("").reduce((s, n, i) => s + Number(n) * (11 - i), 0));
+  return Number(d[9]) === d1 && Number(d[10]) === d2;
+};
