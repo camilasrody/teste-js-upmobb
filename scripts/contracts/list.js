@@ -501,6 +501,11 @@ const bindModals = () => {
   });
 
   el("btn-submit-form").addEventListener("click", handleFormSubmit);
+
+  el("f-zip").addEventListener("input", (e) => {
+    const formatted = formatCEP(e.target.value);
+    e.target.value = formatted;
+  });
 };
 
 const loadContracts = async () => {
