@@ -20,3 +20,11 @@ const esc = (value) => {
   div.appendChild(document.createTextNode(String(value ?? "")));
   return div.innerHTML;
 };
+
+const showToast = (message, type = "success") => {
+  const toast = document.createElement("div");
+  toast.className = `toast toast--${type}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 3000);
+};
