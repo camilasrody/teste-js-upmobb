@@ -1,6 +1,6 @@
 # Teste Frontend — Contratos
 
-Tela administrativa de contratos em Vanilla JS ES6.
+Tela administrativa de contratos
 
 ## Estrutura
 
