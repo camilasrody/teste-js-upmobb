@@ -437,3 +437,30 @@ const bindModals = () => {
 
   el("btn-submit-form").addEventListener("click", handleFormSubmit);
 };
+
+const loadContracts = async () => {
+  state.loading = true;
+  state.error = null;
+  render();
+
+  try {
+    state.contracts = await fetchContracts();
+    applyFilters();
+    render();
+  } catch (err) {
+    state.error = err.message;
+    render();
+  } finally {
+    state.loading = false;
+  }
+};
+
+const init = () => {
+  bindToolbar();
+  bindTableActions();
+  bindModals();
+  el("btn-retry").addEventListener("click", loadContracts);
+  loadContracts();
+};
+
+document.addEventListener("DOMContentLoaded", init);
